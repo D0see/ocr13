@@ -27,7 +27,7 @@ final class ProductController extends AbstractController
         }
 
         return $this->render('product/detail.html.twig', [
-            'product' => $this->productMapper->productToFocusOutputDTO($product),
+            'product' => $this->productMapper->productToOutputFocusProductDTO($product),
         ]);
     }
 }

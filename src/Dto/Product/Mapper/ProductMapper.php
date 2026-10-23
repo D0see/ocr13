@@ -2,41 +2,13 @@
 
 namespace App\Dto\Product\Mapper;
 
-use App\Dto\Order\Output\OrderViewProductDTO;
 use App\Dto\Product\Output\ProductOutputDTO;
 use App\Dto\Product\Output\OutputFocusProductDTO;
-use App\Entity\OrderProduct;
 use App\Entity\Product;
 
 class ProductMapper
 {
-    public function orderProductToOrderViewProductDTO(OrderProduct $orderProduct): OrderViewProductDTO
-    {
-        $product = $orderProduct->getProduct();
-        $quantity = $orderProduct->getQuantity();
-
-        if ($product === null || $quantity === null) {
-            throw new \LogicException('Cannot map an incomplete order product.');
-        }
-
-        $name = $product->getName();
-        $picture = $product->getPicturePath();
-        $unitPrice = $product->getPrice();
-
-        if ($name === null || $picture === null || $unitPrice === null) {
-            throw new \LogicException('Cannot map an order product with incomplete product details.');
-        }
-
-        return new OrderViewProductDTO(
-            name: $name,
-            picture: $picture,
-            quantity: $quantity,
-            unitPrice: $unitPrice,
-            totalPrice: $unitPrice * $quantity,
-        );
-    }
-
-    public function productToFocusOutputDTO(Product $product): OutputFocusProductDTO
+    public function productToOutputFocusProductDTO(Product $product): OutputFocusProductDTO
     {
         $name = $product->getName();
         $price = $product->getPrice();

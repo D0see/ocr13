@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My account{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>My account</h1>
+
+        <form method="post" action="{{ path('user_activate_api_access') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('activate_api_access') }}">
+            <button type="submit">Activate API access</button>
+        </form>
+
+        <form method="post" action="{{ path('user_delete_my_account') }}">
+            <input type="hidden" name="_token" value="{{ csrf_token('delete_my_account') }}">
+            <button type="submit">Delete my account</button>
+        </form>
+    </main>
+{% endblock %}
