@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
+use App\Entity\Order;
 use App\Entity\User;
+use App\Repository\OrderStatusRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use ErrorHelper;
@@ -18,16 +20,14 @@ class UserService {
         private readonly EntityManagerInterface $entityManager,
         private readonly ValidatorInterface $validator,
         private readonly UserRepository $userRepository,
+        private readonly OrderStatusRepository $orderStatusRepository
     ){}
 
-    /**
-     * @param string $mail
-     * @param string $password clear password
-     * @return User
-     */
     public function createUser(
         string $mail,
         string $password,
+        string $firstName,
+        string $lastName,
     ): User {
 
         $userSharingMail = $this->userRepository->findOneBy(['mail' => $mail]);
@@ -38,7 +38,13 @@ class UserService {
 
         $user = (new User())
         ->setMail($mail)
+        ->setFirstName($firstName)
+        ->setLastName($lastName)
         ->setRoles(['ROLE_USER']);
+
+        $order = (new Order())
+        ->setUser(($user))
+        ->setStatus($this->orderStatusRepository->findOneBy(['label' => 'PENDING']));
 
         $errors = $this->validator->validate($user);
 
@@ -52,19 +58,10 @@ class UserService {
         $user->setPassword($this->userPasswordHasher->hashPassword($user, $password));
 
         $this->entityManager->persist($user);
+        $this->entityManager->persist($order);
 
         $this->entityManager->flush();
         
         return $user;
-    }
-
-    public function deleteUser(
-        User $user
-    ): void {
-
-        $this->entityManager->remove($user);
-
-        $this->entityManager->flush();
-
     }
 }

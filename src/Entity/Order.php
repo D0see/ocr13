@@ -86,26 +86,4 @@ class Order
     {
         return $this->orderProducts;
     }
-
-    public function addOrderProduct(OrderProduct $orderProduct): static
-    {
-        if (!$this->orderProducts->contains($orderProduct)) {
-            $this->orderProducts->add($orderProduct);
-            $orderProduct->setLinkedOrder($this);
-        }
-
-        return $this;
-    }
-
-    public function removeOrderProduct(OrderProduct $orderProduct): static
-    {
-        if ($this->orderProducts->removeElement($orderProduct)) {
-            // set the owning side to null (unless already changed)
-            if ($orderProduct->getLinkedOrder() === $this) {
-                $orderProduct->setLinkedOrder(null);
-            }
-        }
-
-        return $this;
-    }
 }

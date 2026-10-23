@@ -86,50 +86,5 @@ La route `GET /login` affiche le formulaire Twig. Sa soumission authentifie l’
 
 ### Produits
 
-- `GET /api/products` : récupérer les produits (authentification JWT et rôle `ROLE_API` requis)
-
-### Utilisateurs
-
-- `POST /api/user/create` : créer un utilisateur
-- `PUT /api/user/{user}` : modifier un utilisateur (admin)
-- `DELETE /api/user/{user}` : supprimer un utilisateur (admin)
-
-### Météo
-
-- `GET /api/weather-mesurement` : météo pour le code postal de l’utilisateur connecté
-- `GET /api/weather-mesurement/{postalCode}` : météo pour un code postal donné
-
-### Conseils
-
-- `GET /api/tip/` : conseils du mois en cours
-- `GET /api/tip/month/{monthNum}` : conseils pour un mois donné
-- `POST /api/tip` : créer un conseil (admin)
-- `PUT /api/tip/{tip}` : modifier un conseil (admin)
-- `DELETE /api/tip/{tip}` : supprimer un conseil (admin)
-
-## Sécurité
-
-Le projet inclut une sécurisation par JWT et des restrictions selon les rôles utilisateur.
-
-- les routes de connexion et de création de compte sont publiques ;
-- les autres routes API sont protégées ;
-- certaines actions demandent le rôle `ROLE_ADMIN`.
-
-## Météo et intégration Weatherbit
-
-La partie météo du projet est intégrée à l’API Weatherbit. Le service dédié envoie une requête pour le code postal donné et récupère la température actuelle pour le pays correspondant (France par défaut pour ce projet).
-
-Les variables d’environnement nécessaires sont :
-
-- `WEATHER_BIT_API_KEY`
-- `WEATHER_BIT_API_BASE_URL`
-
-Les données météo sont ensuite mises en cache et stockées dans la base de données pour éviter de refaire des appels inutiles.
-
-## Développement
-
-Ce projet est pensé comme une API backend légère et évolutive, avec une séparation claire entre contrôleurs, services, entités et DTO.
-
-## Licence
-
-Projet sous licence propriétaire.
+- `GET /api/product/list` : récupérer les produits (authentification JWT et rôle `ROLE_API` requis)
+- `GET /product/{id}` : afficher la photo, le nom, le prix et la description longue d’un produit dans une page Twig (session web et rôle `ROLE_USER` requis)

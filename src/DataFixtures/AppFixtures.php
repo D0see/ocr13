@@ -28,7 +28,9 @@ class AppFixtures extends Fixture
         $user->setPassword($this->userPasswordHasher->hashPassword($user, 'password'));
 
         $status = (new OrderStatus())
-            ->setLabel('Pending');
+            ->setLabel('PENDING');
+        $status2 = (new OrderStatus())
+            ->setLabel('COMPLETED');
 
         $products = [
             (new Product())
@@ -52,14 +54,15 @@ class AppFixtures extends Fixture
         foreach ($products as $index => $product) {
             $orderProduct = (new OrderProduct())
                 ->setProduct($product)
-                ->setQuantity($index === 0 ? 2 : 1);
-            $order->addOrderProduct($orderProduct);
+                ->setQuantity($index === 0 ? 2 : 1)
+                ->setLinkedOrder($order);
             $manager->persist($orderProduct);
             $manager->persist($product);
         }
 
         $manager->persist($user);
         $manager->persist($status);
+        $manager->persist($status2);
         $manager->persist($order);
         $manager->flush();
     }

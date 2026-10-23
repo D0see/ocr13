@@ -17,13 +17,13 @@ final class ApiController extends AbstractController
     ) {
     }
 
-    // #[Route('/login', name: 'api_login', methods: ['POST'])]
-    // public function login(): never
-    // {
-    //     throw new \LogicException('Login requests must be handled by the JSON login firewall.');
-    // }
+    #[Route('/login', name: 'api_login', methods: ['POST'])]
+    public function login(): never
+    {
+        throw new \LogicException('Login requests must be handled by the JSON login firewall.');
+    }
 
-    #[Route('/products', name: 'api_products', methods: ['GET'])]
+    #[Route('/product/list', name: 'api_products', methods: ['GET'])]
     public function products(): JsonResponse
     {
         $products = array_map(
