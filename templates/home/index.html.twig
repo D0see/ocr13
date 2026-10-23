@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+    <main>
+        <h1>Products</h1>
+
+        {% for product in products %}
+            <article>
+                <img src="{{ product.picture }}" alt="{{ product.name }}">
+                <h2>{{ product.name }}</h2>
+                <p>{{ product.shortDescription }}</p>
+                <p>{{ product.price|number_format(2, ',', ' ') }} €</p>
+            </article>
+        {% else %}
+            <p>No products are available.</p>
+        {% endfor %}
+    </main>
+{% endblock %}

@@ -4,10 +4,30 @@ namespace App\Dto\Product\Mapper;
 
 use App\Dto\Product\Output\ProductOutputDTO;
 use App\Dto\Product\Output\OutputFocusProductDTO;
+use App\Dto\Product\Output\HomeProductDTO;
 use App\Entity\Product;
 
 class ProductMapper
 {
+    public function productToHomeProductDTO(Product $product): HomeProductDTO
+    {
+        $name = $product->getName();
+        $shortDescription = $product->getShortDescription();
+        $price = $product->getPrice();
+        $picture = $product->getPicturePath();
+
+        if ($name === null || $shortDescription === null || $price === null || $picture === null) {
+            throw new \LogicException('Cannot map an incomplete product.');
+        }
+
+        return new HomeProductDTO(
+            picture: $picture,
+            name: $name,
+            shortDescription: $shortDescription,
+            price: $price,
+        );
+    }
+
     public function productToOutputFocusProductDTO(Product $product): OutputFocusProductDTO
     {
         $name = $product->getName();
